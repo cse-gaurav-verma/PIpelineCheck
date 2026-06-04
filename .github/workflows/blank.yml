@@ -1,0 +1,24 @@
+name: Check for SECRET
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Search for SECRET in text files
+        run: |
+          echo "Scanning repository for the word SECRET..."
+
+          if grep -rIn --include="*.txt" "SECRET" .; then
+            echo "❌ Found the word SECRET in a text file."
+            exit 1
+          fi
+
+          echo "✅ No SECRET found in text files."
